@@ -9,4 +9,5 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Maven compile
         run: mvn compile
