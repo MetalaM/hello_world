@@ -37,14 +37,14 @@ public class BaseTest {
 
   @Test
   void shouldCheckHome() {
-    page.navigate("http://localhost/index.html");
+    page.navigate("https://metalam.github.io/hello_world/");
     String actual = page.locator("(//nav//ul/li/a)[1]").innerText();
     assertEquals(actual, "HOME\n" + "(CURRENT)");
   }
 
   @Test
   void shouldCheckAbout() {
-    page.navigate("http://localhost/index.html");
+    page.navigate("https://metalam.github.io/hello_world/");
     String actual = page.locator("(//nav//ul/li/a)[2]").innerText();
     assertEquals(actual, "ABOUT");
   }
