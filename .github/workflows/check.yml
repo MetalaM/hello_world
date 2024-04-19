@@ -61,8 +61,11 @@ jobs:
         - name: Install Maven
           run: sudo apt-get install maven -y
 
-        - name: Run Playwright Tests
+        - name: Run Playwright
           run: |
             mvn -B install -D skipTests --no-transfer-progress
-            mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D
+            mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI
             mvn test
+
+        - name: Run Tests
+          run: mvn test
