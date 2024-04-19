@@ -57,6 +57,6 @@ jobs:
         - name: Build & Install
           run: mvn -B install -D skipTests --no-transfer-progress
         - name: Install Playwright
-          run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
+          run: mvn exec:java -e -D exec.BaseTest=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
         - name: Run tests
           run: mvn test
