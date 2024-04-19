@@ -25,10 +25,24 @@ jobs:
         - name: Build with Jekyll
           uses: actions/jekyll-build-pages@v1
           with:
-            source: ./app/
+            source: ./app
             destination: ./_site
         - name: Upload artifact
           uses: actions/upload-pages-artifact@v3
+
+
+
+    # Deployment job
+    deploy:
+      environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+      runs-on: ubuntu-latest
+      needs: test
+      steps:
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v4
 
     test:
       timeout-minutes: 60
@@ -46,16 +60,3 @@ jobs:
           run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
         - name: Run tests
           run: mvn test
-
-    # Deployment job
-    deploy:
-      environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
-      runs-on: ubuntu-latest
-      needs: test
-      steps:
-        - name: Deploy to GitHub Pages
-          id: deployment
-          uses: actions/deploy-pages@v4
-
