@@ -64,4 +64,5 @@ jobs:
         - name: Run Playwright Tests
           run: |
             mvn -B install -D skipTests --no-transfer-progress
-            mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="test"  # Adjust this command according to your Playwright setup
+            mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D
+            mvn test
