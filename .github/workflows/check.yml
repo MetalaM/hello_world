@@ -55,7 +55,8 @@ jobs:
         - name: Setup Java
           uses: actions/setup-java@v2
           with:
-            java-version: '17'  # Adjust Java version as needed
+            java-version: '17'
+            distribution: "temurin" # Adjust Java version as needed
 
         - name: Install Maven
           run: sudo apt-get install maven -y
