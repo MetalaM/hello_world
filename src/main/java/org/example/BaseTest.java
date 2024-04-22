@@ -3,20 +3,40 @@ package org.example;
 import com.microsoft.playwright.*;
 import org.testng.annotations.*;
 
+import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 public class BaseTest {
   Playwright playwright;
   Browser browser;
-
-  // New instance for each test method.
   BrowserContext context;
   Page page;
+  Properties properties = new Properties();
+  FileInputStream fileInputStream = null;
+  BrowserType.LaunchOptions launchOptions = new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(50);
 
   @BeforeClass
   void launchBrowser() {
-    playwright = Playwright.create();
-    browser = playwright.chromium().launch();
+    try {
+      fileInputStream = new FileInputStream("src/main/resources/properties.properties");
+      properties.load(fileInputStream);
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      if (fileInputStream != null) {
+        try {
+          fileInputStream.close();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+      playwright = Playwright.create();
+      browser = playwright.chromium().launch(properties.getProperty("headlessmode").equals("true")?null:launchOptions);
+    }
   }
 
   @AfterClass
@@ -26,7 +46,9 @@ public class BaseTest {
 
   @BeforeMethod
   void createContextAndPage() {
-    context = browser.newContext();
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    context = browser.newContext(properties.getProperty("headlessmode").equals("true") ?
+            null : new Browser.NewContextOptions().setViewportSize((int)screenSize.getWidth(), (int)screenSize.getHeight()));
     page = context.newPage();
   }
 
@@ -47,6 +69,13 @@ public class BaseTest {
     page.navigate("https://metalam.github.io/hello_world/");
     String actual = page.locator("(//nav//ul/li/a)[2]").innerText();
     assertEquals(actual, "ABOUT");
+  }
+
+  @Test
+  void shouldCheckClasses() {
+    page.navigate("https://metalam.github.io/hello_world/");
+    String actual = page.locator("(//nav//ul/li/a)[3]").innerText();
+    assertEquals(actual, "Classes".toUpperCase());
   }
 }
 
