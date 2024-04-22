@@ -46,10 +46,12 @@ public class BaseTest {
 
   @BeforeMethod
   void createContextAndPage() {
-    //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    //context = browser.newContext(properties.getProperty("headlessmode").equals("true") ?
-    //        null : new Browser.NewContextOptions().setViewportSize((int)screenSize.getWidth(), (int)screenSize.getHeight()));
-    context = browser.newContext();
+    if(properties.getProperty("headlessmode").equals("false")){
+      Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+      context = browser.newContext(properties.getProperty("headlessmode").equals("true") ?
+              null : new Browser.NewContextOptions().setViewportSize((int)screenSize.getWidth(), (int)screenSize.getHeight()));
+    }
+    else context = browser.newContext();
     page = context.newPage();
   }
 
