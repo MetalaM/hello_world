@@ -3,7 +3,7 @@
 <suite name="Smoke" verbose="1">
     <test name="Regression1">
         <classes>
-            <class name="org.example.BaseTest"/>
+            <class name="org.example.MainMenu"/>
         </classes>
     </test>
 </suite>
