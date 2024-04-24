@@ -18,6 +18,7 @@ public class BaseTest {
   Properties properties = new Properties();
   FileInputStream fileInputStream = null;
   BrowserType.LaunchOptions launchOptions = new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(50);
+  
 
   @BeforeClass
   void launchBrowser() {
